@@ -6,7 +6,7 @@
     <title>Check analysis result and generate a report</title>
     <authors>m.roger@castsoftware.com</authors>
     <owners>m.roger@castsoftware.com</owners>
-    <projectUrl>https://confluence.castsoftware.com/display/PSTS/Analysis+Validation</projectUrl>
+    <projectUrl>https://github.com/CAST-Extend/com.castsoftware.uc.checkanalysiscompleteness</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This extension generates a report on completeness of analysis result.</description>
     <releaseNotes />
