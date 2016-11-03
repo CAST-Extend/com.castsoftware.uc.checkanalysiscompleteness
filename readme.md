@@ -1,6 +1,6 @@
 # Unanalysed Code Report
 
-Generates a report showing the delivered source code that has not been analyzed. 
+Generates a report showing the **delivered source code that has not been analyzed**. 
 
 It also provides the language of that missed code and recommendations.
 
