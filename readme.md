@@ -1,5 +1,11 @@
-Features
---------
+# Unanalysed Code Report
+
+Generates a report showing the delivered source code that has not been analyzed. 
+
+It also provides the language of that missed code and recommendations.
+
+## Features
+
 
 This extension basically search for the code/config that is present in the delivery but not analyzed.
 It serves to check that analysis is complete or not after analysis. 
@@ -14,8 +20,7 @@ Files that you have not selected 'on purpose' will still be presented here (unit
 The language list contains more than 200 different 'languages'.
  
 
-How it works
-------------
+## How it works
 
 The CAST Knowledge Base contains the list of analyzed files, we compare this list to the files physically present in the deployment folder.
 
@@ -30,8 +35,8 @@ More precisely:
 
 All this is based on the CAST SDK and serves to demonstrate its possibilities.
 
-How to contribute
------------------
+## How to contribute
+
 
 Contact m.roger@castsoftware.com.
 
@@ -40,22 +45,21 @@ The top is to provide knowledge base dump + source code...
 
 You may also send a thank you if you find this useful.
 
-Changelog
----------
+## Changelog
+
 
 - list all files paths, for debug  
 - using https://github.com/faph/Common-Path for root discovery 
 - adding a summary
 - suggest Core analyser/UA/Extension
 
-Todos
------
+## Todos
 
 - group xml per namespace/dtd...
 - search for class fullnames in xml 
 
-Problems
---------
+## Problems
+
 
 - root detection
   - for example we miss ...
