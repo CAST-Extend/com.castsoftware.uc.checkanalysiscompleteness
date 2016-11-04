@@ -10,6 +10,7 @@ class CheckApplication(ApplicationLevelExtension):
 
     def end_application(self, application):
         
+        logging.info("##################################################################")
         logging.info("Checking application completeness")
         
         report_path = os.path.join(self.get_plugin().intermediate, 'completeness_report.xlsx')
@@ -19,3 +20,4 @@ class CheckApplication(ApplicationLevelExtension):
         workbook.close()
         
         logging.info("Generated report %s" % report_path)
+        logging.info("##################################################################")

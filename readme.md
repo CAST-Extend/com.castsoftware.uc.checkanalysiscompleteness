@@ -1,16 +1,39 @@
 # Unanalysed Code Report
 
-Generates a report showing the **delivered source code that has not been analyzed**. 
+Generates a report showing the **delivered source code that has not been analyzed** by 
+comparing the Knowledge Base content to the deployment folder content. 
 
 It also provides the language of that missed code and recommendations.
 
+[Documentation](https://github.com/CAST-Extend/com.castsoftware.uc.checkanalysiscompleteness)
+
+## Usage
+
+- Install on a triplet
+- Run the analysis
+  
+  - the report is generated during the CAST-MS step 
+    
+    'Run Extensions at application level for ...'
+
+  - the report path is indicated inside the Application Level log :
+    
+    Checking application completeness
+    ...
+    Found ... unanalyzed text files
+    Generated report C:\Users\mro\AppData\Local\Temp\CAST\CAST\8.1\LISA/1a4ad8521e3a436db4ea149f2d49e6d1\completeness_report.xlsx
+    
+  - the report is named  *completeness_report.xlsx* and is located in the LISA folder of your application
+  
+![The log file containing the path](/report.png)
+
+
 ## Features
 
+This extension basically search for the code/config that is present in the deploy but not analyzed.
+It serves to check that analysis is complete or not **after analysis**. 
 
-This extension basically search for the code/config that is present in the delivery but not analyzed.
-It serves to check that analysis is complete or not after analysis. 
-
-The result is an excell report containing :
+The result is an excel report containing :
 - the list of unanalyzed files per recognized language
 - the list of unanalyzed language found and sometimes an associated recommendation
 
