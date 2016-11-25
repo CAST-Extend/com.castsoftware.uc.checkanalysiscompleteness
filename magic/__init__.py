@@ -30,7 +30,7 @@ def run_magic(files):
             pass
     files_file.close()    
     
-    command = '"' + bin_path +'/file.exe" --mime --no-pad -m "' + bin_path + '/magic" -f "' + files_file.name + '"'
+    command = '"' + bin_path +'/file.exe" --mime --no-pad -m "' + bin_path + '/magic.txt" -f "' + files_file.name + '"'
     
     p = subprocess.Popen(command,universal_newlines=True,stdout=subprocess.PIPE)
     (out,_) = p.communicate()
