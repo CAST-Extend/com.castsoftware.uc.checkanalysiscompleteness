@@ -342,29 +342,63 @@ class Application:
                              
                              # svn
                              "*.mine",
-                             "*.theirs"
+                             "*.theirs", 
                              
-                             # git
-                             ".gitignore",
+                             # Git 
+                             ".gitignore", 
                              "*.gitattributes",
                              
-                             # apache
+                             # Apache
                              "*.htaccess",
                              
+                             # csshint
+                             ".csslintrc",
+                             
+                             # Bower 
+                             ".bowerrc", 
+                             
+                             # Checkstyle 
+                             "checkstyle.xml", 
+                             
+                             # Travis 
+                             "travis.yml", 
+                             
+                             # sonar 
+                             "sonar.yml",    
+                             
+                             # Gatling Performance Testing 
+                             "gatling.conf",    
+                             
+                             # Docker 
+                             "Dockerfile",                                
+                             
+                             # npm
+                             ".npmignore", 
+                             
                              # jshint
-                             "*.jshintrc",
+                             ".jshintrc",
+                             ".jshintignore", 
+                             
+                             # JSCS : Javascript code style linter and formatter 
+                             ".jscsrc", 
+                             ".eslintignore", 
+                             
+                             # Maven wrappers 
+                             "mvnw", 
+                             
+                             # EditorConfig 
+                             ".editorconfig", 
                              
                              # eclipse, do we need to exclude ?
                             "pom.xml", 
                             ".project",
                             ".classpath",
                              
-                             
-                             
-                             # various
+                             # Various
                              "*.log",
                              "*.txt",
                              "*.md", # markdown
+                             "COPYING", 
                              "LICENSE",
                              "*.csv",
                              "*.xsd", # schema definition... not interesting 
@@ -555,11 +589,16 @@ class Language:
         """
         # @todo : list them all... 
         map = {
-               'PHP':('com.castsoftware.php', 'https://confluence.castsoftware.com/display/download/UA+Extensions'),
-               'FORTRAN':('com.castsoftware.fortran', 'https://confluence.castsoftware.com/display/download/UA+Extensions'),
-               'Shell':('com.castsoftware.shell', 'https://confluence.castsoftware.com/display/download/UA+Extensions'),
+               'PHP':('com.castsoftware.php', 'http://doc.castsoftware.com/display/DOCEXT/PHP+1.1'),
+               'FORTRAN':('com.castsoftware.fortran', 'http://doc.castsoftware.com/display/DOCEXT/Fortran+1.0'),
+               'Shell':('com.castsoftware.shell', 'http://doc.castsoftware.com/display/DOCEXT/SHELL+1.0'),
                'ActionScript':('com.castsoftware.flex', 'https://confluence.castsoftware.com/display/download/UA+Extensions'),
-               'SQL':('com.castsoftware.sqlanalyzer', ''),
+               'SQL':('com.castsoftware.sqlanalyzer', 'http://doc.castsoftware.com/display/DOCEXT/SQL+Analyzer+-+1.0'),
+               'Python':('com.castsoftware.python', 'TBD'),
+               'EGL':('com.castsoftware.egl', 'http://doc.castsoftware.com/display/DOCEXT/EGL+1.0'),
+               'PL1':('com.castsoftware.pl1', 'http://confluence.castsoftware.com/display/DOCEXT/PL1+1.1'),
+               'Perl':('com.castsoftware.perl', 'https://confluence.castsoftware.com/display/WwSEs/Perl+Extension+Description'),
+               'RPG':('com.castsoftware.rpg', 'http://doc.castsoftware.com/display/DOCEXT/RPG+2.0'),
                }
 
         try:

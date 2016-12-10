@@ -492,6 +492,16 @@ languages = \
             ".eclxml"
         ]
     },
+    "EGL": {
+        "type": "programming",
+        "color": "#8a1268",
+        "primary_extension": ".egl",
+        "lexer": "EGL",
+        "extensions": [
+            ".eglbld", 
+            ".egldd"
+        ]
+    },    
     "Eiffel": {
         "type": "programming",
         "lexer": "Text only",
@@ -777,6 +787,10 @@ languages = \
             ".hxsl"
         ]
     },
+    "INF": {
+        "type": "data",
+        "primary_extension": ".inf"
+    },    
     "INI": {
         "type": "data",
         "extensions": [
@@ -1272,6 +1286,15 @@ languages = \
             ".lpr"
         ]
     },
+    "PL1": {
+        "type": "programming",
+        "lexer": "PL1",
+        "color": "#b0ce4f",
+        "primary_extension": ".pli",
+        "extensions": [
+            ".plc"
+        ]
+    },    
     "Perl": {
         "type": "programming",
         "ace_mode": "perl",
@@ -1458,6 +1481,39 @@ languages = \
         "color": "#cc0088",
         "primary_extension": ".rg"
     },
+    "RPG": {
+        "type": "programming",
+        "ace_mode": "RPG",
+        "color": "#3581bb",
+        "primary_extension": ".rpg",
+        "extensions": [
+            ".rpgle",
+            ".cpyle", 
+            ".bnd", 
+            ".sqlrpgle", 
+            ".rpglerule",
+            ".rpg", 
+            ".rpg38", 
+            ".sqlrpg", 
+            ".rpgrule", 
+            ".menu", 
+            ".mnu", 
+            ".dds", 
+            ".dspf", 
+            ".prtf", 
+            ".dspf38", 
+            ".prtf38", 
+            ".lf", 
+            ".pf", 
+            ".pf38", 
+            ".lf38", 
+            ".cl",
+            ".clp", 
+            ".clle", 
+            ".clp38", 
+            ".cl38"
+        ],
+    },    
     "Ruby": {
         "type": "programming",
         "ace_mode": "ruby",
@@ -1565,7 +1621,11 @@ languages = \
         "primary_extension": ".sh",
         "extensions": [
             ".bats",
-            ".tmux"
+            ".tmux", 
+            ".bsh", 
+            ".ksh", 
+            ".shell", 
+            ".ssh"
         ],
         "filenames": [
             "Dockerfile"

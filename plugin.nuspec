@@ -2,15 +2,12 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>com.castsoftware.uc.checkanalysiscompleteness</id>
-    <version>0.0.7</version>
+    <version>0.0.8</version>
     <title>Unanalysed Code Report</title>
     <authors>m.roger@castsoftware.com</authors>
     <owners>m.roger@castsoftware.com</owners>
     <projectUrl>https://github.com/CAST-Extend/com.castsoftware.uc.checkanalysiscompleteness</projectUrl>
     <iconUrl>http://cliparts.co/cliparts/ki8/5E9/ki85E9r5T.jpg</iconUrl>
-    <!--
-    <iconUrl>https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Puzzle_black-white_missing.jpg/320px-Puzzle_black-white_missing.jpg</iconUrl>
-    -->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Generates a report showing the delivered source code that has not been analyzed by comparing it to the Knowledge Base content. It also provides the language of that missed code and recommendations.</description>
     <tags>Report Completeness AnalysisTuning</tags>
