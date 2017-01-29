@@ -25,7 +25,7 @@ def generate_report(application, workbook):
     """
     
     app = Application(application)
-    app.generate_report(workbook)
+    return app.generate_report(workbook)
 
 
 
@@ -47,14 +47,14 @@ class Application:
         
         # then get all the analysed files
         self.analyzed_files = self.__get_analysed_file_pathes()
-        
+         
         # then scan folder to find the files that where not taken into account
         self.unanalyzed_files = self.__get_unanalysed_files()
-        
-        
+         
+         
         self.languages_with_unanalysed_files = SortedSet()
         self.unanalysed_files_per_languages = SortedDict()
-        
+         
         # get the missing languages
         self.__get_languages()
     
@@ -64,14 +64,15 @@ class Application:
         """
         
         # summary
-        self.summary(workbook)
+        percentage = self.summary(workbook)
         
         # for debug 
         self.list_files(workbook)
         
         # un analysed files per language
         self.list_unanalysed(workbook)
-
+        
+        return percentage
     
     def summary(self, workbook):
         
@@ -91,9 +92,17 @@ class Application:
         percent_format = workbook.add_format({'num_format': '0.00"%"'}) 
         
         worksheet.write(2, 0, 'Percentage of unanalyzed files')
-        worksheet.write(2, 1, math.ceil(len(self.unanalyzed_files)/len(self.analyzed_files)*100), percent_format)
         
-        # unhandled detexted languages and their remediation
+        analyzed_count = len(self.analyzed_files)
+        unanalyzed_count = len(self.unanalyzed_files)
+        total = analyzed_count + unanalyzed_count
+        percentage = 0
+        
+        if total:
+            percentage = unanalyzed_count / total * 100
+            worksheet.write(2, 1, math.ceil(percentage), percent_format)
+        
+        # unhandled detected languages and their remediation
         
         format = workbook.add_format({'bold': True, 'font_color': 'green'})
         
@@ -118,7 +127,7 @@ class Application:
                 
             row += 1
             
-        
+        return percentage
     
     def list_files(self, workbook):
         """
@@ -196,19 +205,20 @@ class Application:
         They are text files or xml files
         Some files are excluded by known extensions
         """
-        
+        all_files = set()
         # get root path
-        root = self.root_path
+        for root in self.root_path:
         
-        logging.info("Using Source root path : %s", root)
+            logging.info("Using Source root path : %s", root)
+            
+            # paranoid : if root path is too short (C: for example) skip
+            if root == PureWindowsPath('C:\\') or root == PureWindowsPath('C:'):
+                logging.info("Source root path found is invalid, aborting.")
+                continue
         
-        # paranoid : if root path is too short (C: for example) skip
-        if root == PureWindowsPath('C:\\') or root == PureWindowsPath('C:'):
-            logging.info("Source root path found is invalid, aborting.")
-            return []
-        
-        logging.info("Scanning Source root path content...")
-        all_files = self.__scan_all_files(str(root))
+            logging.info("Scanning Source root path content...")
+            all_files |= self.__scan_all_files(str(root))
+
     
         analysed_files = self.analyzed_files
     
@@ -229,7 +239,9 @@ class Application:
         
     def __get_root_path(self):
         """
-        Access the root source path of an application if found.
+        Access the root source pathes of an application if found.
+        
+        :return: list of PureWindowsPath
         
         It is an approximation of the reality. 
         
@@ -252,16 +264,37 @@ class Application:
           
         """
         logging.info("Searching for source root path...")
+        
+        try:
+            app = self.application.get_application_configuration()
+            
+            result = []
+            for package in app.get_packages():
+                result.append(PureWindowsPath(package.get_path()))
+
+            logging.info("Using packages from CMS")
+            
+            return result
+        
+        except:
+            logging.info("Using KB heuristic")
+        
         pathes = []
         
         for f in self.application.get_files():
             if hasattr(f,'get_path') and f.get_path():
                 
+                path = f.get_path()
+                
                 # exclude some known generated files
-                if ".net generated files" in f.get_path():
+                if ".net generated files" in path:
                     continue
-                    
-                pathes.append(f.get_path().lower())
+                
+                if path.startswith('['):
+                    # inside a jar 
+                    continue
+                
+                pathes.append(path.lower())
     
         common = CommonPath(pathes)
         
@@ -279,7 +312,7 @@ class Application:
             logging.info('Found deploy\<app name>. Thank you, following convention renders my job easier.')
             result = result[0:result.find(guess)]+guess
 
-        return PureWindowsPath(result)
+        return [PureWindowsPath(result)]
     
     
     def __get_analysed_file_pathes(self):
@@ -329,6 +362,9 @@ class Application:
                              "VAST*.src", 
                              "*.uax",
                              "*.uaxdirectory",
+                             
+                             # assembly extraction
+                             "PE.CastPeDescriptor",
                              
                              # binaries
                              "*.jar",
@@ -390,9 +426,9 @@ class Application:
                              ".editorconfig", 
                              
                              # eclipse, do we need to exclude ?
-                            "pom.xml", 
-                            ".project",
-                            ".classpath",
+                             "pom.xml", 
+                             ".project",
+                             ".classpath",
                              
                              # Various
                              "*.log",
@@ -421,6 +457,10 @@ class Application:
                              "*.csproj",
                              "*.vssscc",
                              "*.csproj.user",
+                             
+                             # xcode 
+                             "*.xcbkptlist", # breakpoints
+                             "*.xcwordspacedata",
                              
                              # do not laugh, I have seen it 
                              "tnsnames.ora",

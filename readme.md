@@ -16,6 +16,9 @@ It also provides the language of that missed code and recommendations.
     
     'Run Extensions at application level for ...'
 
+  - the report can be sent by email during analysis (new in 0.1.0)
+    See : [Email to send report option](http://doc.castsoftware.com/display/DOC80/CMS+-+Notes+tab) and [Mail server configuration](http://doc.castsoftware.com/display/DOC80/CMS+-+Preferences+-+Mail)
+
   - the report path is indicated inside the Application Level log :
     
     Checking application completeness
@@ -60,23 +63,38 @@ All this is based on the CAST SDK and serves to demonstrate its possibilities.
 
 ## How to contribute
 
+For bugs, feature requests 
+- create a ticket [here](https://github.com/CAST-Extend/com.castsoftware.uc.checkanalysiscompleteness/issues) 
+- for bugs provide :
+  - Application Level log
+  - generated report 
+
+For contributions 
+- create a pull request [here](https://github.com/CAST-Extend/com.castsoftware.uc.checkanalysiscompleteness/pulls) 
 
 Contact m.roger@castsoftware.com.
-
-Bugs and real analysis results are very welcome.
-The top is to provide knowledge base dump + source code... 
 
 You may also send a thank you if you find this useful.
 
 ## Changelog
-
 
 - list all files paths, for debug  
 - using https://github.com/faph/Common-Path for root discovery 
 - adding a summary
 - suggest Core analyser/UA/Extension
 
+0.1.0
+- corrects percentage formula
+- corrects false root folder path due to files from jars (tld)
+- in case of combined install only :
+  - send the report by email if option is configured
+  - get the application root pathes from mngt   
+
 ## Todos
+
+- try heuristic to find mngt
+  - use folders 
+  - send email 
 
 - group xml per namespace/dtd...
 - search for class fullnames in xml 
