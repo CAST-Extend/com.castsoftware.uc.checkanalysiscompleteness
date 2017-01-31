@@ -55,7 +55,7 @@ More precisely:
 - detect the root path of code
 - find the 'text' files that where not analyzed
   - filter some well known files that are not interesting (for example eclipse files, git, svn files...)
-  - libmagic then tells us if a file is text or not
+  - [libmagic](https://en.wikipedia.org/wiki/File_(command)) then tells us if a file is text or not
   - try to recognize the language of each text file using a database taken from https://github.com/liluo/linguist
   - generate a report 
 
