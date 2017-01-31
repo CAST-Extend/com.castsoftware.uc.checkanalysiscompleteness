@@ -17,7 +17,10 @@ It also provides the language of that missed code and recommendations.
     'Run Extensions at application level for ...'
 
   - the report can be sent by email during analysis (new in 0.1.0)
-    See : [Email to send report option](http://doc.castsoftware.com/display/DOC80/CMS+-+Notes+tab) and [Mail server configuration](http://doc.castsoftware.com/display/DOC80/CMS+-+Preferences+-+Mail)
+    See : [Email to send report option](http://doc.castsoftware.com/display/DOC80/CMS+-+Notes+tab) 
+    and [Mail server configuration](http://doc.castsoftware.com/display/DOC80/CMS+-+Preferences+-+Mail)
+    
+    If you get warnings like 'SMTP AUTH extension not supported by server' then try configuring without authentification.
 
   - the report path is indicated inside the Application Level log :
     
