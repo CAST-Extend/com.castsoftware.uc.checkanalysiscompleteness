@@ -421,6 +421,12 @@ languages = \
             ".di"
         ]
     },
+    # CAST-extraction format
+    "DB": {
+        "type": "programming",
+        "color": "#fcd46d",
+        "primary_extension": ".src"
+    },
     "D-ObjDump": {
         "type": "data",
         "lexer": "d-objdump",
