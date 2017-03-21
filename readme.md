@@ -27,7 +27,7 @@ It also provides the language of that missed code and recommendations.
     Checking application completeness
     ...
     Found ... unanalyzed text files
-    Generated report C:\Users\mro\AppData\Local\Temp\CAST\CAST\8.1\LISA/1a4ad8521e3a436db4ea149f2d49e6d1\completeness_report.xlsx
+    Generated report C:\Users\mro\AppData\Local\Temp\CAST\CAST\8.1\LISA\1a4ad8521e3a436db4ea149f2d49e6d1\completeness_report.xlsx
     
   - the report is named  *completeness_report.xlsx* and is located in the LISA folder of your application
   
