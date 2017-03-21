@@ -1,4 +1,4 @@
-import cast_upgrade_1_5_4 # @UnusedImport @UnresolvedImport
+import cast_upgrade_1_5_5 # @UnusedImport @UnresolvedImport
 from cast.application import ApplicationLevelExtension
 from cast.application.setup import CASTAIP # @UnresolvedImport
 
@@ -8,10 +8,10 @@ import unanalysed
 import os
 
 
-def main(application, report_path):
+def main(application, report_path, version=None):
     
     workbook = xlsxwriter.Workbook(report_path)
-    percentage = unanalysed.generate_report(application, workbook)
+    percentage = unanalysed.generate_report(application, workbook, version)
     workbook.close()
     
     # try to send report by email
@@ -82,7 +82,11 @@ class CheckApplication(ApplicationLevelExtension):
         logging.info("##################################################################")
         logging.info("Checking application completeness")
         
+        self.get_plugin().get_version()
         report_path = os.path.join(self.get_plugin().intermediate, 'completeness_report.xlsx')
+        
+        # make path usable directly in windows
+        report_path = report_path.replace('/', '\\')
         
         main(application, report_path)
         

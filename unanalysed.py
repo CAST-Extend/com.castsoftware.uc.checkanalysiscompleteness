@@ -19,12 +19,12 @@ from linguist import recognise_language
 from commonpath import CommonPath
 
 
-def generate_report(application, workbook):
+def generate_report(application, workbook, version=None):
     """
     Generate a worksheet report for files not analyzed in application
     """
     
-    app = Application(application)
+    app = Application(application, version)
     return app.generate_report(workbook)
 
 
@@ -36,11 +36,21 @@ class Application:
     
     """
     
-    def __init__(self, application):
+    def __init__(self, application, version=None):
         
         self.languages = SortedDict()
         
         self.application = application
+        self.version = version
+        
+        # file count limits for each root
+        self.root_limit = {}
+        self.cms_roots = False
+        self.packages = []
+        
+        self.file_count_01 = 0
+        self.file_count_02 = 0
+        self.file_count_03 = 0
         
         # first calculate root path
         self.root_path = self.__get_root_path()
@@ -50,7 +60,6 @@ class Application:
          
         # then scan folder to find the files that where not taken into account
         self.unanalyzed_files = self.__get_unanalysed_files()
-         
          
         self.languages_with_unanalysed_files = SortedSet()
         self.unanalysed_files_per_languages = SortedDict()
@@ -71,6 +80,9 @@ class Application:
         
         # un analysed files per language
         self.list_unanalysed(workbook)
+        
+        # debug infos
+        self.debug(workbook)
         
         return percentage
     
@@ -166,6 +178,8 @@ class Application:
         # fill in report
         worksheet.write(0, 0, 'Language')
         worksheet.write(0, 1, 'Path')
+        worksheet.write(0, 2, 'CMS Package')
+        
         row = 1
         width = 30 
         
@@ -174,6 +188,8 @@ class Application:
             for _file in files_per_language[language]:
                 worksheet.write(row, 0, str(language))
                 worksheet.write(row, 1, str(_file.path))
+                worksheet.write(row, 2, str(_file.get_package_name()))
+                
                 row += 1
                 
                 width = max(width, len(str(_file.path)))
@@ -182,8 +198,70 @@ class Application:
         worksheet.set_column(1, 1, width)
         
         # add filters from (0, 0) to (1, row)
-        worksheet.autofilter(0, 0, row, 0)        
+        worksheet.autofilter(0, 0, row-1, 2)        
     
+    def debug(self, workbook):
+    
+        kb = self.application.get_knowledge_base()
+    
+        worksheet = workbook.add_worksheet('Debug')
+
+        worksheet.set_column(0, 0, 40)
+        worksheet.set_column(1, 1, 100)
+        worksheet.set_column(2, 2, 50)
+
+        worksheet.write(0, 0, 'CAIP version')
+        worksheet.write(0, 1, str(kb.get_caip_version()))
+    
+        line = 1
+        if self.version:
+
+            worksheet.write(line, 0, str(self.version))
+            line += 1
+            
+    
+        worksheet.write(line, 0, 'Extensions')
+        
+        line += 1
+        
+        for extension, version in kb.get_extensions():
+            
+            worksheet.write(line, 1, extension)
+            worksheet.write(line, 2, str(version))
+            line += 1
+        
+        
+        worksheet.write(line, 0, 'Root pathes')
+        line+= 1
+        
+        for path in self.root_path:
+            
+            worksheet.write(line, 1, str(path))
+            line += 1
+        
+        worksheet.write(line, 0, 'roots found with')
+        worksheet.write(line, 1, 'CMS' if self.cms_roots else 'KB')
+        line+= 1
+        
+        for path in self.root_limit:
+            
+            worksheet.write(line, 0, 'limit reached')
+            worksheet.write(line, 1, str(path))
+            line += 1
+            
+        worksheet.write(line, 0, 'file count 01')
+        worksheet.write(line, 1, self.file_count_01)
+        line+= 1
+            
+        worksheet.write(line, 0, 'file count 02')
+        worksheet.write(line, 1, self.file_count_02)
+        line+= 1
+
+        worksheet.write(line, 0, 'file count 03')
+        worksheet.write(line, 1, self.file_count_03)
+        line+= 1
+
+        
     def get_language(self, name):
         """
         Get a language per name.
@@ -225,14 +303,18 @@ class Application:
         logging.info("Comparing files...")
         
         unanalysed_files = all_files - analysed_files
-        
+        self.file_count_01 = len(unanalysed_files)
+
         # first exclude some useless, already known files
-        unanalysed_files = self.__filter_known(unanalysed_files) 
+        unanalysed_files = list(self.__filter_known(unanalysed_files)) 
+
+        self.file_count_02 = len(unanalysed_files)
         
         logging.info("Recognizing text files using magic. May take some time...")
         
         unanalysed_files = self.__filter_text(unanalysed_files)
         
+        self.file_count_03 = len(unanalysed_files)
         logging.info("Found  %s unanalyzed text files", len(unanalysed_files))
         
         return unanalysed_files
@@ -268,18 +350,20 @@ class Application:
         try:
             app = self.application.get_application_configuration()
             
-            result = []
+            result = set()
             for package in app.get_packages():
-                result.append(PureWindowsPath(package.get_path()))
-
+                result.add(PureWindowsPath(package.get_path()))
+                self.packages.append(package)
+                
             logging.info("Using packages from CMS")
-            
+            self.cms_roots = True
             return result
         
         except:
             logging.info("Using KB heuristic")
+            self.cms_roots = False
         
-        pathes = []
+        pathes = set()
         
         for f in self.application.get_files():
             if hasattr(f,'get_path') and f.get_path():
@@ -294,7 +378,7 @@ class Application:
                     # inside a jar 
                     continue
                 
-                pathes.append(path.lower())
+                pathes.add(path.lower())
     
         common = CommonPath(pathes)
         
@@ -317,7 +401,7 @@ class Application:
     
     def __get_analysed_file_pathes(self):
     
-        files = [f for f in self.application.get_files() if hasattr(f, 'get_path')]
+        files = [f for f in self.application.get_files(external=True) if hasattr(f, 'get_path')]
         return set([File(f.get_path()) for f in files if f.get_path()])
         
     
@@ -331,16 +415,25 @@ class Application:
         limit = 200000
         
         result = set()
-        
+
+        # find package         
+        package = None
+        if self.packages:
+            
+            for p in self.packages:
+                
+                if str(PureWindowsPath(p.get_path())) in root:
+                    package = p
         
         for dirname, _, filenames in os.walk(root):
         
             # print path to all filenames.
             for filename in filenames:
-                result.add(File(os.path.join(dirname, filename)))
+                result.add(File(os.path.join(dirname, filename), package))
                 
                 # paranoid
                 if len(result) > limit:
+                    self.root_limit[root] = True
                     return result
                 
                 
@@ -438,6 +531,10 @@ class Application:
                              "LICENSE",
                              "*.csv",
                              "*.xsd", # schema definition... not interesting 
+                             
+                             # excel
+                             "*.xls",
+                             "*.xlsx",
                              
                              # .h are not interesting, for example external .h and interesting is .cpp
                              "*.h",
@@ -558,12 +655,13 @@ class File:
     Represent a file and informations found on it
     """
     
-    def __init__(self, path):
+    def __init__(self, path, package=None):
         self.path = PureWindowsPath(path)
         self.mime_type = None
         # languages recognized by extensions
         self.languages = recognise_language(path)
         self.language = "unknown"
+        self.package = package
     
     def set_mime(self, mime):
         """
@@ -592,7 +690,16 @@ class File:
                 self.language = 'HTML'
         
         return application.get_language(self.language)
-        
+    
+    def get_package_name(self):
+        """
+        CMS package name in which this file is found
+        """
+        if self.package:
+            return self.package.name
+        else:
+            return "?"
+    
     def __eq__(self, other):
         return self.path == other.path    
 

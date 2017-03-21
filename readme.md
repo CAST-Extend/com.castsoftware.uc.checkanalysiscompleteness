@@ -93,22 +93,39 @@ You may also send a thank you if you find this useful.
   - send the report by email if option is configured
   - get the application root pathes from mngt   
 
+0.1.3
+
+- add the CMS package name when available
+- correct '/' in report path
+- add a Debug sheet in report
+    - CAIP version
+    - plugins version
+    - root pathes found
+    - heuristic used
+    - limit reached 
+- corrects a bug due to xls crashing magic (skipping those files)
+- use latest api to avoid external file issue 
+    
 ## Todos
 
-- try heuristic to find mngt
-  - use folders 
-  - send email 
+
+- search for class fullnames in xml 
+
+- Debug sheet
+    - put number of files of each step
+- have error message of file.exe somewhere...
 
 - group xml per namespace/dtd...
-- search for class fullnames in xml 
 
 ## Problems
 
-
-- root detection
+- root detection when cannot find managment base
   - for example we miss ...
   - tryed deploy\app name but we take the external files in C++ !!
     - get_file + external ?
     - .h are useless and do not constitute the necessity to add an AU 
 - unalaysed source
   - we point to tests whereas they have probably been excluded on purpose 
+
+  
+  
