@@ -108,22 +108,13 @@ You may also send a thank you if you find this useful.
     
 ## Todos
 
-
 - search for class fullnames in xml 
-
-- Debug sheet
-    - put number of files of each step
 - have error message of file.exe somewhere...
-
 - group xml per namespace/dtd...
 
 ## Problems
 
 - root detection when cannot find managment base
-  - for example we miss ...
-  - tryed deploy\app name but we take the external files in C++ !!
-    - get_file + external ?
-    - .h are useless and do not constitute the necessity to add an AU 
 - unalaysed source
   - we point to tests whereas they have probably been excluded on purpose 
 
