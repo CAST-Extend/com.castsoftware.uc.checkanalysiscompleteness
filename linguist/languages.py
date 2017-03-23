@@ -1029,10 +1029,7 @@ languages = \
         "aliases": [
             "mumps"
         ],
-        "primary_extension": ".mumps",
-        "extensions": [
-            ".m"
-        ]
+        "primary_extension": ".mumps"
     },
     "Makefile": {
         "aliases": [

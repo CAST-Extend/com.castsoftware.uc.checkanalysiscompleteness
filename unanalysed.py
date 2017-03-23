@@ -33,9 +33,7 @@ class Application:
     """
     Application discovery for users.
     
-    
     """
-    
     def __init__(self, application, version=None):
         
         self.languages = SortedDict()
@@ -66,6 +64,9 @@ class Application:
          
         # get the missing languages
         self.__get_languages()
+        
+        
+        
     
     def generate_report(self, workbook):
         """
@@ -124,9 +125,24 @@ class Application:
         worksheet.write(4, 3, 'Documentation', format)
         row = 5
         
+        important = []
+        unknown = []
+        useless = []
+
         for language in self.languages_with_unanalysed_files:
-            worksheet.write(row, 0, language.name)
-            worksheet.write(row, 1, len(self.unanalysed_files_per_languages[language]))
+            
+            core = language.has_core()
+            extension = language.has_ua()
+            if core or extension:
+                important.append(language)
+            elif language.is_useless():
+                useless.append(language)
+            else:
+                unknown.append(language)
+        
+        def print_language(language, row, format):
+            worksheet.write(row, 0, language.name, format)
+            worksheet.write(row, 1, len(self.unanalysed_files_per_languages[language]), format)
             
             core = language.has_core()
             extension = language.has_ua()
@@ -137,7 +153,32 @@ class Application:
                 worksheet.write(row, 2, 'Use extension %s' % extension[0])
                 worksheet.write(row, 3, '%s' % extension[1])
                 
+        important_format = workbook.add_format()
+        important_format.set_bg_color('#FFC7CE')
+            
+        unknown_format = workbook.add_format()
+
+        useless_format = workbook.add_format()
+        useless_format.set_bg_color('#C6EFCE')
+        
+        # severe issues
+        for language in important:
+            print_language(language, row, important_format)
             row += 1
+            
+        row += 2
+
+        for language in unknown:
+            print_language(language, row, unknown_format)
+            row += 1
+            
+        row += 2
+
+        for language in useless:
+            print_language(language, row, useless_format)
+            row += 1
+            
+        row += 2
             
         return percentage
     
@@ -744,22 +785,38 @@ class Language:
         """
         # @todo : list them all... 
         map = {
-               'PHP':('com.castsoftware.php', 'http://doc.castsoftware.com/display/DOCEXT/PHP+1.1'),
-               'FORTRAN':('com.castsoftware.fortran', 'http://doc.castsoftware.com/display/DOCEXT/Fortran+1.0'),
-               'Shell':('com.castsoftware.shell', 'http://doc.castsoftware.com/display/DOCEXT/SHELL+1.0'),
-               'ActionScript':('com.castsoftware.flex', 'http://doc.castsoftware.com/display/DOCEXT/Flex+1.0'),
-               'SQL':('com.castsoftware.sqlanalyzer', 'http://doc.castsoftware.com/display/DOCEXT/SQL+Analyzer+-+1.0'),
-               'Python':('com.castsoftware.python', 'TBD'),
-               'EGL':('com.castsoftware.egl', 'http://doc.castsoftware.com/display/DOCEXT/EGL+1.0'),
-               'PL1':('com.castsoftware.pl1', 'http://doc.castsoftware.com/display/DOCEXT/PL1+1.0'),
-               'Perl':('com.castsoftware.perl', 'https://confluence.castsoftware.com/display/WwSEs/Perl+Extension+Description'),
-               'RPG':('com.castsoftware.rpg', 'http://doc.castsoftware.com/display/DOCEXT/RPG+2.0'),
+               'ActionScript':('com.castsoftware.flex', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.flex/'),
+               'EGL':('com.castsoftware.egl', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.egl/'),
+               'FORTRAN':('com.castsoftware.fortran', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.fortran/'),
+               'Objective-C':('com.castsoftware.ios', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.ios/'),
+               'HTML':('com.castsoftware.html5', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.html5/'),
+               'JavaScript':('com.castsoftware.html5', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.html5/'),
+               'Perl':('com.castsoftware.perl', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.uc.Perl/'),
+               'PHP':('com.castsoftware.php', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.php/'),
+               'PL1':('com.castsoftware.pl1', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.pl1/'),
+               'Python':('com.castsoftware.python', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.python/'),
+               'RPG':('com.castsoftware.rpg', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.rpg/'),
+               'Shell':('com.castsoftware.shell', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.shell/'),
+               'SQL':('com.castsoftware.sqlanalyzer', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.sqlanalyzer/'),
                }
 
         try:
             return map[self.name]
         except:
             pass
+
+    def is_useless(self):
+        """
+        Some 'languages' are known as useless. 
+        for example : ini, json, css ... 
+        """
+        
+        useless = {'INI', 
+                   'CSS', 
+                   'JSON',
+                   'XSLT'}
+        
+        return self.name in useless
 
     def __eq__(self, other):
         return self.name == other.name    
