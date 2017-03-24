@@ -48,6 +48,32 @@ Files that you have not selected 'on purpose' will still be presented here (unit
 
 The language list contains more than 200 different 'languages'.
  
+### Java framework suspicion
+
+If an XML file contains a clear mention of a Java class present in the application, the file will be marked with 'XML Framework' language.
+
+Those file may indicate the presence of an unhandled framework.
+
+For example :
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<handler-chains xmlns="http://java.sun.com/xml/ns/javaee">
+  <handler-chain>
+    <handler>
+      <handler-name>org.superbiz.calculator.wsh.Inflate</handler-name>
+      <handler-class>org.superbiz.calculator.wsh.Inflate</handler-class>
+    </handler>
+    <handler>
+      <handler-name>org.superbiz.calculator.wsh.Increment</handler-name>
+      <handler-class>org.superbiz.calculator.wsh.Increment</handler-class>
+    </handler>
+  </handler-chain>
+</handler-chains>
+```
+
+And application contains a class org.superbiz.calculator.wsh.Inflate.
+
 
 ## How it works
 
@@ -105,10 +131,18 @@ You may also send a thank you if you find this useful.
     - limit reached 
 - corrects a bug due to xls crashing magic (skipping those files)
 - use latest api to avoid external file issue 
+
+0.1.4
+
+- better report
+- objective-c
+- XML framework
     
 ## Todos
 
 - search for class fullnames in xml 
+
+- detect presence of SQL in xml
 - have error message of file.exe somewhere...
 - group xml per namespace/dtd...
 

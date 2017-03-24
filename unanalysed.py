@@ -17,6 +17,7 @@ from pathlib import PureWindowsPath
 from magic import run_magic
 from linguist import recognise_language
 from commonpath import CommonPath
+from detect_class_name import search_classes
 
 
 def generate_report(application, workbook, version=None):
@@ -65,7 +66,8 @@ class Application:
         # get the missing languages
         self.__get_languages()
         
-        
+        # scan xml files...
+        self.__scan_xml_files()
         
     
     def generate_report(self, workbook):
@@ -133,7 +135,7 @@ class Application:
             
             core = language.has_core()
             extension = language.has_ua()
-            if core or extension:
+            if core or extension or language.name == 'XML Framework':
                 important.append(language)
             elif language.is_useless():
                 useless.append(language)
@@ -152,7 +154,9 @@ class Application:
             elif extension:
                 worksheet.write(row, 2, 'Use extension %s' % extension[0])
                 worksheet.write(row, 3, '%s' % extension[1])
-                
+            elif language.name == 'XML Framework':
+                worksheet.write(row, 2, 'Those XML files contain references to classes, maybe an unsupported framework')
+
         important_format = workbook.add_format()
         important_format.set_bg_color('#FFC7CE')
             
@@ -689,7 +693,32 @@ class Application:
                 self.unanalysed_files_per_languages[language] = SortedSet()
             
             self.unanalysed_files_per_languages[language].add(_file)
+    
+    def __scan_xml_files(self):
+        """
+        Scan xml files and search for classes names.
+        
+        exclude tld files...
+        """
+        xml_files = self.unanalysed_files_per_languages[Language('XML')]
 
+        logging.info('Scanning XML files for classes names...')
+        
+        files_with_classes = search_classes(xml_files, self.application.objects().has_type('Java').is_class())
+        
+        xml_framework_language = Language('XML Framework')
+        
+        xml_frameworks = SortedSet()
+        
+        for _file in files_with_classes:
+            
+            xml_frameworks.add(_file)
+            self.languages_with_unanalysed_files.add(xml_framework_language)
+            _file.language = xml_framework_language
+            
+        self.unanalysed_files_per_languages[Language('XML')] = xml_files - xml_frameworks
+        self.unanalysed_files_per_languages[xml_framework_language] = xml_frameworks
+        
 
 class File:
     """
@@ -786,6 +815,7 @@ class Language:
         # @todo : list them all... 
         map = {
                'ActionScript':('com.castsoftware.flex', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.flex/'),
+               'CSS':('com.castsoftware.html5', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.html5/'),
                'EGL':('com.castsoftware.egl', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.egl/'),
                'FORTRAN':('com.castsoftware.fortran', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.fortran/'),
                'Objective-C':('com.castsoftware.ios', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.ios/'),
@@ -812,8 +842,8 @@ class Language:
         """
         
         useless = {'INI', 
-                   'CSS', 
                    'JSON',
+                   'Tag Library Descriptor',
                    'XSLT'}
         
         return self.name in useless

@@ -1722,6 +1722,10 @@ languages = \
         "wrap": True,
         "primary_extension": ".textile"
     },
+    "Tag Library Descriptor": {
+        "type": "programming",
+        "primary_extension": ".tld",
+    },
     "Turing": {
         "type": "programming",
         "color": "#45f715",
