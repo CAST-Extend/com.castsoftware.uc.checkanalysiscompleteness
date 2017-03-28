@@ -700,25 +700,28 @@ class Application:
         
         exclude tld files...
         """
-        xml_files = self.unanalysed_files_per_languages[Language('XML')]
-
-        logging.info('Scanning XML files for classes names...')
-        
-        files_with_classes = search_classes(xml_files, self.application.objects().has_type('Java').is_class())
-        
-        xml_framework_language = Language('XML Framework')
-        
-        xml_frameworks = SortedSet()
-        
-        for _file in files_with_classes:
+        try:
+            xml_files = self.unanalysed_files_per_languages[Language('XML')]
+    
+            logging.info('Scanning XML files for classes names...')
             
-            xml_frameworks.add(_file)
-            self.languages_with_unanalysed_files.add(xml_framework_language)
-            _file.language = xml_framework_language
+            files_with_classes = search_classes(xml_files, self.application.objects().has_type('Java').is_class())
             
-        self.unanalysed_files_per_languages[Language('XML')] = xml_files - xml_frameworks
-        self.unanalysed_files_per_languages[xml_framework_language] = xml_frameworks
-        
+            xml_framework_language = Language('XML Framework')
+            
+            xml_frameworks = SortedSet()
+            
+            for _file in files_with_classes:
+                
+                xml_frameworks.add(_file)
+                self.languages_with_unanalysed_files.add(xml_framework_language)
+                _file.language = xml_framework_language
+                
+            self.unanalysed_files_per_languages[Language('XML')] = xml_files - xml_frameworks
+            self.unanalysed_files_per_languages[xml_framework_language] = xml_frameworks
+        except:
+            # no XML files
+            pass
 
 class File:
     """
