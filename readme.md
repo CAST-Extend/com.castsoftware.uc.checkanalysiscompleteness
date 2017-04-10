@@ -137,20 +137,20 @@ You may also send a thank you if you find this useful.
 - better report
 - objective-c
 - XML framework
-    
-## Todos
 
-- search for class fullnames in xml 
+0.1.5
+
+- corrects false positives on :
+  - un analysed and extracted schemas
+  - c++ headers files
+
+## Todos
 
 - detect presence of SQL in xml
 - have error message of file.exe somewhere...
-- group xml per namespace/dtd...
+
 
 ## Problems
-
-- root detection when cannot find managment base
-- unalaysed source
-  - we point to tests whereas they have probably been excluded on purpose 
 
   
   

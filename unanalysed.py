@@ -581,8 +581,14 @@ class Application:
                              "*.xls",
                              "*.xlsx",
                              
-                             # .h are not interesting, for example external .h and interesting is .cpp
+                             # c++ headers are not interesting, for example external .h 
+                             # interesting is .cpp
+                             "*.hh",
+                             "*.h++",
+                             "*.hpp",
+                             "*.hcc",
                              "*.h",
+                             "*.hxx",
                              
                              # skipped by analyser
                              "package-info.java",
@@ -622,7 +628,10 @@ class Application:
                             # eclipse config
                             ".*org\.eclipse\..*", 
                             # abap program description
-                            ".*\\PG_DESCR_.*\.xml"
+                            ".*\\PG_DESCR_.*\.xml",
+                            # cast extracts; e.g:
+                            # S:\Sources\DB\GCP_EEN\EIR01PRW\DT.62.src
+                            ".*\\.*\.[0-9]+\.src",
                             ]
         
         

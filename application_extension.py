@@ -1,4 +1,4 @@
-import cast_upgrade_1_5_5 # @UnusedImport @UnresolvedImport
+import cast_upgrade_1_5_6 # @UnusedImport @UnresolvedImport
 from cast.application import ApplicationLevelExtension
 from cast.application.setup import CASTAIP # @UnresolvedImport
 
