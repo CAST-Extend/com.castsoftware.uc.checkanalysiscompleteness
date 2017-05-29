@@ -144,7 +144,14 @@ You may also send a thank you if you find this useful.
   - un analysed and extracted schemas
   - c++ headers files
 
+0.1.6
+
+- adding some useless files issued from users experience
+- correction of an issue with magic
+- replace 'recommendation' by 'information' "can be analysed with ..."
+
 ## Todos
+
 
 - detect presence of SQL in xml
 - have error message of file.exe somewhere...

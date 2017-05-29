@@ -123,7 +123,7 @@ class Application:
         
         worksheet.write(4, 0, 'Detected languages with unanalyzed files', format)
         worksheet.write(4, 1, 'Number of files', format)
-        worksheet.write(4, 2, 'Recommendation', format)
+        worksheet.write(4, 2, 'Can be analysed with', format)
         worksheet.write(4, 3, 'Documentation', format)
         row = 5
         
@@ -618,6 +618,11 @@ class Application:
                              '*CP.abap',
                              'SAP*.sap.xml',
                              'SAP*.SQLTABLESIZE',
+                             
+                             # some useless files 
+                             '*.factorypath', 
+                             '*.script',
+                             
                              ]
         
         # this time full regular expressions
@@ -681,11 +686,15 @@ class Application:
             # @todo : may have other combinations to handle 
             if content_type == 'text' or len(mime) > 1 and mime[1] == 'xml':
                 
-                _file = m[PureWindowsPath(f[0])]
-                # stores mime info on the file object
-                _file.mime_type = mime
-                result.append(_file)
-    
+                try:
+                    _file = m[PureWindowsPath(f[0])]
+                    # stores mime info on the file object
+                    _file.mime_type = mime
+                    result.append(_file)
+                    
+                except KeyError:
+                    pass
+                    
         return result
 
     def __get_languages(self):
@@ -856,7 +865,9 @@ class Language:
         useless = {'INI', 
                    'JSON',
                    'Tag Library Descriptor',
-                   'XSLT'}
+                   'XSLT',
+                   'INF',
+                   ''}
         
         return self.name in useless
 
