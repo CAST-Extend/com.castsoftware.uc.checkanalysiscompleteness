@@ -16,7 +16,7 @@ It also provides the language of that missed code and recommendations.
     
     'Run Extensions at application level for ...'
 
-  - the report can be sent by email during analysis (new in 0.1.0)
+  - the report can be sent by email during analysis (new in 0.1.0, **CSS triplet only**)
     See : [Email to send report option](http://doc.castsoftware.com/display/DOC80/CMS+-+Notes+tab) 
     and [Mail server configuration](http://doc.castsoftware.com/display/DOC80/CMS+-+Preferences+-+Mail)
     
@@ -149,6 +149,11 @@ You may also send a thank you if you find this useful.
 - adding some useless files issued from users experience
 - correction of an issue with magic
 - replace 'recommendation' by 'information' "can be analysed with ..."
+
+0.1.7
+
+- find the most specific package to add the file to
+
 
 ## Todos
 

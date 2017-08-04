@@ -465,10 +465,18 @@ class Application:
         package = None
         if self.packages:
             
+            # there may be several packages containing the path...
             for p in self.packages:
                 
                 if str(PureWindowsPath(p.get_path())) in root:
-                    package = p
+                    
+                    if package:
+                        # ambiguity
+                        # take the longest one
+                        if len(p.get_path()) > len(package.get_path()):
+                            package = p
+                    else:                    
+                        package = p
         
         for dirname, _, filenames in os.walk(root):
         
