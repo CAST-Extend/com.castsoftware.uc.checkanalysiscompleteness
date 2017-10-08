@@ -529,6 +529,8 @@ class Application:
                              # Git 
                              ".gitignore", 
                              "*.gitattributes",
+                             ".ratignore", 
+                             ".gitmodules",
                              
                              # Apache
                              "*.htaccess",
@@ -560,13 +562,39 @@ class Application:
                              # jshint
                              ".jshintrc",
                              ".jshintignore", 
+                             ".jshintrc-spec",
                              
                              # JSCS : Javascript code style linter and formatter 
                              ".jscsrc", 
                              ".eslintignore", 
+                             ".eslintrc", 
+                             
+                             # JS and CSS SourceMaps 
+                             "*.js.map", 
+                             "*.css.map",    
+                             "*.min.map",
+                             "*-min.map", 
+                             
+                             # Android Studio build files
+                             "settings.gradle",      
+                             "build.gradle",     
+                             "cordova.gradle",   
+                             "build-extras.gradle",                       
                              
                              # Maven wrappers 
                              "mvnw", 
+                             
+                             # Maven integrity checksums, ... 
+                             "*.jar.sha1", 
+                             "*.pom.sha1", 
+                             "*.libd.sha1", 
+                             "*.pom",
+                             "*.md5",
+                             "_maven.repositories",
+                             "m2e-lastUpdated.properties",
+                             "_remote.repositories", 
+                             "*.pom.lastUpdated",
+                             "*.jar.lastUpdated",
                              
                              # EditorConfig 
                              ".editorconfig", 
@@ -603,6 +631,13 @@ class Application:
                              
                              # java deployment
                              "MANIFEST.MF",
+                             
+                             # License file 
+                             "LICENSE.MIT", 
+                             "LICENSE.APACHE2", 
+                             "AUTHORS",
+                             "CONTRIBUTORS", 
+                             "UNLICENSE", 
                              
                              # microsoft database project
                              "*.dbp",
