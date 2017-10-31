@@ -6,7 +6,7 @@
     <title>Unanalysed Code Report</title>
     <authors>User Community</authors>
     <owners>CAST</owners>
-    <projectUrl>https://github.com/CAST-Extend/com.castsoftware.uc.checkanalysiscompleteness</projectUrl>
+    <projectUrl>https://github.com/CAST-Extend/com.castsoftware.uc.checkanalysiscompleteness/wiki/Unanalysed-Code-Report</projectUrl>
     <iconUrl>http://cliparts.co/cliparts/ki8/5E9/ki85E9r5T.jpg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Generates a report showing the delivered source code that has not been analyzed by comparing it to the Knowledge Base content. It also provides the language of that missed code and recommendations.</description>
