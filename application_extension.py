@@ -9,9 +9,26 @@ import os
 
 def main(application, report_path, version=None):
     
+    # Generate the Excel report and get the raw percentage
     workbook = xlsxwriter.Workbook(report_path)
     percentage = unanalysed.generate_report(application, workbook, version)
     workbook.close()
+
+    try:
+        # try Publish the Execution Report in CMS
+        report_name='Unanalyzed Code'
+        metric_name = 'Percentage of unanalysed files'
+        metric='%.1f%%' % percentage
+        level='OK'
+        if (percentage > 10):
+            level='Warning'
+        
+        # this import may fail in versions < 8.3
+        from cast.application import publish_report # @UnresolvedImport
+        publish_report(report_name, level, metric_name, metric, detail_report_path=report_path)
+    
+    except:
+        pass # probably not in 8.3
     
     # try to send report by email
     mngt_application = application.get_application_configuration()
