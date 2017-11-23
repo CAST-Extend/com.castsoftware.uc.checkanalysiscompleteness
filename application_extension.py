@@ -5,6 +5,7 @@ import logging
 import xlsxwriter
 import unanalysed
 import os
+import time
 
 
 def main(application, report_path, version=None):
@@ -99,7 +100,7 @@ class CheckApplication(ApplicationLevelExtension):
         logging.info("Checking application completeness")
         
         self.get_plugin().get_version()
-        report_path = os.path.join(self.get_plugin().intermediate, 'completeness_report.xlsx')
+        report_path = os.path.join(self.get_plugin().intermediate, time.strftime("completeness_report_%Y%m%d_%H%M%S.xlsx"))
         
         # make path usable directly in windows
         report_path = report_path.replace('/', '\\')
