@@ -531,18 +531,27 @@ class Application:
                              "*.gitattributes",
                              ".ratignore", 
                              ".gitmodules",
+                             "CNAME", 
                              
                              # Apache
                              "*.htaccess",
                              
-                             # csshint
+                             # csslint
                              ".csslintrc",
+                             
                              
                              # Bower 
                              ".bowerrc", 
                              
                              # Checkstyle 
                              "checkstyle.xml", 
+                             
+                             # StyleCop 
+                             "StyleCop.Cache", 
+                             "Settings.StyleCop", 
+                             
+                             # SharpCover
+                             "*.SharpCover", 
                              
                              # Travis 
                              "travis.yml", 
@@ -553,21 +562,50 @@ class Application:
                              # Gatling Performance Testing 
                              "gatling.conf",    
                              
+                             # BitHound Code and Dependencies Analysis 
+                             "*.bithoundrc", 
+                             
+                             # Node Version Manager 
+                             "*.nvmrc", 
+                             
+                             # Mocha 
+                             "mocha.opts", 
+                             
+                             # HTTP Archive Valider 
+                             "har-validator", 
+                             
                              # Docker 
-                             "Dockerfile",                                
+                             "Dockerfile",
+                             ".dockerignore",              
+                                                          
+                             # Ansible 
+                             "*.conf.j2", 
                              
                              # npm
                              ".npmignore", 
                              
                              # jshint
+                             "jshint", 
                              ".jshintrc",
                              ".jshintignore", 
                              ".jshintrc-spec",
+                             
+                             # TSLint 
+                             ".lint", 
+                             ".lintignore", 
+                             
+                             "lcov.info", 
+                             
+                             # CoffeeScript  
+                             "Cakefile", 
                              
                              # JSCS : Javascript code style linter and formatter 
                              ".jscsrc", 
                              ".eslintignore", 
                              ".eslintrc", 
+                             
+                             # uglifyjs
+                             "uglifyjs", 
                              
                              # JS and CSS SourceMaps 
                              "*.js.map", 
@@ -588,6 +626,8 @@ class Application:
                              "*.jar.sha1", 
                              "*.pom.sha1", 
                              "*.libd.sha1", 
+                             "*.pom.sha1-in-progress", 
+                             "*.jar.sha1-in-progress", 
                              "*.pom",
                              "*.md5",
                              "_maven.repositories",
@@ -599,7 +639,7 @@ class Application:
                              # EditorConfig 
                              ".editorconfig", 
                              
-                             # eclipse, do we need to exclude ?
+                             # Eclipse, do we need to exclude ?
                              "pom.xml", 
                              ".project",
                              ".classpath",
@@ -607,13 +647,35 @@ class Application:
                              # Various
                              "*.log",
                              "*.txt",
+                             ".hidden", 
+                             ".ignore", 
                              "*.md", # markdown
-                             "COPYING", 
-                             "LICENSE",
                              "*.csv",
                              "*.xsd", # schema definition... not interesting 
                              
-                             # excel
+                             # License file 
+                             "LICENSE",
+                             "LICENCE", 
+                             "LICENSE-MIT",
+                             "LICENSE.MIT", 
+                             "LICENSE.BSD", 
+                             "MIT.LICENSE", 
+                             "LICENSE.APACHE2", 
+                             "AUTHORS",
+                             "OWNERS", 
+                             "CONTRIBUTORS", 
+                             "UNLICENSE",                
+                             "COPYING", 
+                             "CHANGELOG", 
+                             "changelog", 
+                             "Changelog", 
+                             "PKG-INFO", 
+                             "README", 
+                             "README.*", 
+                             "NOTICE", 
+                             "CREDITS", 
+        
+                             # Excel
                              "*.xls",
                              "*.xlsx",
                              
@@ -631,14 +693,7 @@ class Application:
                              
                              # java deployment
                              "MANIFEST.MF",
-                             
-                             # License file 
-                             "LICENSE.MIT", 
-                             "LICENSE.APACHE2", 
-                             "AUTHORS",
-                             "CONTRIBUTORS", 
-                             "UNLICENSE", 
-                             
+                        
                              # microsoft database project
                              "*.dbp",
                              # microsoft project...
@@ -648,6 +703,13 @@ class Application:
                              "*.csproj",
                              "*.vssscc",
                              "*.csproj.user",
+                             
+                             # Public Private Key Certificate 
+                             "*.pkcs8.base64", 
+                             "*.key", 
+                             "*.crt", 
+                             "*.pem",
+                             "*.priv",  
                              
                              # xcode 
                              "*.xcbkptlist", # breakpoints
