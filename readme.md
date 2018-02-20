@@ -154,6 +154,9 @@ You may also send a thank you if you find this useful.
 
 - find the most specific package to add the file to
 
+0.2.3
+
+- repair broken report publishing
 
 ## Todos
 
