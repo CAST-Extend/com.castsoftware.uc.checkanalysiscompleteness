@@ -1,18 +1,20 @@
 import cast_upgrade_1_5_17 # @UnusedImport @UnresolvedImport
 from cast.application import ApplicationLevelExtension, CASTAIP # @UnresolvedImport
 
+import glob
 import logging
 import xlsxwriter
+import xlrd
 import unanalysed
 import os
 import time
 
 
-def main(application, report_path, version=None):
+def main(application, report_path, version=None, previously_unanalysed=set()):
     
     # Generate the Excel report and get the raw percentage
     workbook = xlsxwriter.Workbook(report_path)
-    percentage = unanalysed.generate_report(application, workbook, version)
+    percentage = unanalysed.generate_report(application, workbook, version, previously_unanalysed)
     workbook.close()
 
     try:
@@ -90,7 +92,40 @@ def main(application, report_path, version=None):
         except Exception as e:
             logging.warning(e)
             pass
+
+
+def find_latest_report(folder):
+    """
+    Return the latest resport in the given folder
+    """
+    pathes = list(glob.glob(os.path.join(folder, "completeness_report_*.xlsx")))
+    pathes.sort()
+    if pathes:
+        return pathes[-1]
     
+
+def load_previously_unanalysed_files(folder):
+    """
+    Give the set of unanalysed files in the previous run 
+    """
+    path = find_latest_report(folder)
+    
+    result = set()
+    
+    if path:
+        
+        try:
+            xl_workbook = xlrd.open_workbook(path)
+            xl_sheet = xl_workbook.sheet_by_name('Files Not Analyzed')
+            for row_idx in range(1, xl_sheet.nrows):
+                
+                path = xl_sheet.cell(row_idx, 1)
+                result.add(path.value)
+        except:
+            pass
+    
+    return result
+
 
 class CheckApplication(ApplicationLevelExtension):
 
@@ -105,7 +140,7 @@ class CheckApplication(ApplicationLevelExtension):
         # make path usable directly in windows
         report_path = report_path.replace('/', '\\')
         
-        main(application, report_path)
+        main(application, report_path, previously_unanalysed=load_previously_unanalysed_files(self.get_plugin().intermediate))
         
         logging.info("Generated report %s" % report_path)
         logging.info("##################################################################")

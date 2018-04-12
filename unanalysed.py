@@ -20,12 +20,12 @@ from commonpath import CommonPath
 from detect_class_name import search_classes
 
 
-def generate_report(application, workbook, version=None):
+def generate_report(application, workbook, version=None, previously_unanalysed=set()):
     """
     Generate a worksheet report for files not analyzed in application
     """
     
-    app = Application(application, version)
+    app = Application(application, version, previously_unanalysed)
     return app.generate_report(workbook)
 
 
@@ -35,12 +35,13 @@ class Application:
     Application discovery for users.
     
     """
-    def __init__(self, application, version=None):
+    def __init__(self, application, version=None, previously_unanalysed=set()):
         
         self.languages = SortedDict()
         
         self.application = application
         self.version = version
+        self.__previously_unanalysed = previously_unanalysed
         
         # file count limits for each root
         self.root_limit = {}
@@ -83,6 +84,9 @@ class Application:
         
         # un analysed files per language
         self.list_unanalysed(workbook)
+        
+        # delta
+        self.list_new_unanalysed(workbook)
         
         # debug infos
         self.debug(workbook)
@@ -214,8 +218,6 @@ class Application:
     
         # unanalysed files
         worksheet = workbook.add_worksheet('Files Not Analyzed')
-        
-        files = self.unanalyzed_files
     
         # order the data according to something stable : language name + path 
         files_per_language = self.unanalysed_files_per_languages
@@ -244,6 +246,42 @@ class Application:
         
         # add filters from (0, 0) to (1, row)
         worksheet.autofilter(0, 0, row-1, 2)        
+    
+    
+    def list_new_unanalysed(self, workbook):
+        
+        worksheet = workbook.add_worksheet('New Files Not Analyzed')
+        
+        # order the data according to something stable : language name + path 
+        files_per_language = self.unanalysed_files_per_languages
+    
+        # fill in report
+        worksheet.write(0, 0, 'Language')
+        worksheet.write(0, 1, 'Path')
+        worksheet.write(0, 2, 'CMS Package')
+        
+        row = 1
+        width = 30 
+        
+        for language in files_per_language:
+            
+            for _file in files_per_language[language]:
+                
+                if str(_file.path) not in self.__previously_unanalysed: 
+                    worksheet.write(row, 0, str(language))
+                    worksheet.write(row, 1, str(_file.path))
+                    worksheet.write(row, 2, str(_file.get_package_name()))
+                    
+                    row += 1
+                    
+                    width = max(width, len(str(_file.path)))
+        
+        # auto set width of column (max width have been calculated along the way)
+        worksheet.set_column(1, 1, width)
+        
+        # add filters from (0, 0) to (1, row)
+        worksheet.autofilter(0, 0, row-1, 2)        
+        
     
     def debug(self, workbook):
     
@@ -735,6 +773,8 @@ class Application:
                             # svn example : .r2681
                             ".*\.r[0-9]+",
                             ".*\\\.svn\\.*",
+                            # git 
+                            ".*\\\.git\\.*",
                             # eclipse config
                             ".*org\.eclipse\..*", 
                             # abap program description
@@ -742,6 +782,8 @@ class Application:
                             # cast extracts; e.g:
                             # S:\Sources\DB\GCP_EEN\EIR01PRW\DT.62.src
                             ".*\\.*\.[0-9]+\.src",
+                            # DL.PUBLIC.A1ENB1D1.DB.ATT.COM.src
+                            r".*\.PUBLIC\..*\.src"
                             ]
         
         

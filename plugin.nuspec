@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>com.castsoftware.uc.checkanalysiscompleteness</id>
-    <version>0.2.3</version>
+    <version>0.3.0</version>
     <title>Unanalysed Code Report</title>
     <authors>User Community</authors>
     <owners>CAST</owners>
@@ -11,9 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Generates a report showing the delivered source code that has not been analyzed by comparing it to the Knowledge Base content. It also provides the language of that missed code and recommendations.</description>
     <tags>Reporting Completeness AnalysisTuning</tags>
-    <releaseNotes>
-- repair broken report pubishing
-    </releaseNotes>
+    <releaseNotes>https://github.com/CAST-Extend/com.castsoftware.uc.checkanalysiscompleteness/wiki/Unanalysed-Code-Report#changelog</releaseNotes>
     <dependencies>
       <dependency id="CAIP" version="7.3.4" />
     </dependencies>
