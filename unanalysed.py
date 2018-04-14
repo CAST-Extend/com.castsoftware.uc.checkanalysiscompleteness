@@ -560,6 +560,9 @@ class Application:
                              "*/Debug/*",
                              "*/Release/*",
                              
+                             # cvs
+                             ".cvsignore",
+                             
                              # svn
                              "*.mine",
                              "*.theirs", 
@@ -766,6 +769,10 @@ class Application:
                              '*.factorypath', 
                              '*.script',
                              
+                             # various
+                             '*.dtd',
+                             '*.tld',
+                             
                              ]
         
         # this time full regular expressions
@@ -786,6 +793,27 @@ class Application:
                             r".*\.PUBLIC\..*\.src"
                             ]
         
+        # special case for html5
+        selected_javascript_pathes = []
+        
+        try:
+            mngt_app = self.application.get_application_configuration()
+            for analysis_unit in mngt_app.get_analysis_units():
+                if 'HTML5/Javascript' in analysis_unit.get_technologies():
+                    selected_javascript_pathes += [PureWindowsPath(p) for p in analysis_unit.get_included_selection()]
+
+        except:
+            pass
+
+        def is_javascript_selected(f):
+            # @type f: PureWindowsPath
+            if f.suffix != '.js':
+                return False
+            for selected in selected_javascript_pathes:
+                if str(selected) in str(f):
+                    return True                
+            return False
+
         
         def is_excluded(f):
             
@@ -797,7 +825,10 @@ class Application:
                 
                 if re.match(pattern, str(f)):
                     return True
-    
+                
+            if is_javascript_selected(f):
+                return True
+            
             return False
         
     
@@ -887,6 +918,8 @@ class Application:
         except:
             # no XML files
             pass
+
+
 
 class File:
     """

@@ -47,6 +47,11 @@ Due to the 'systematic' nature of this extension, the result still need human in
 Files that you have not selected 'on purpose' will still be presented here (unit tests, external code, etc...) 
 
 The language list contains more than 200 different 'languages'.
+
+### Delta with previous report
+
+The report contains a tab 'New Files Not Analyzed' that list the new unanalysed files from the previous report.
+
  
 ### Java framework suspicion
 
@@ -157,6 +162,14 @@ You may also send a thank you if you find this useful.
 0.2.3
 
 - repair broken report publishing
+
+0.3.0
+
+- exclude .git folders
+- exclude PUBLIC schema (oracle)
+- delta feature : New Files Not Analyzed
+- corrects an issue on javascript
+
 
 ## Todos
 
