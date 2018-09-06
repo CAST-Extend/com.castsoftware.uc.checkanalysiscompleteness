@@ -170,6 +170,11 @@ You may also send a thank you if you find this useful.
 - delta feature : New Files Not Analyzed
 - corrects an issue on javascript
 
+0.4.0
+
+- more exclusion
+- more languages detected 
+
 
 ## Todos
 

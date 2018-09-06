@@ -563,6 +563,9 @@ class Application:
                              # cvs
                              ".cvsignore",
                              
+                             # Team Foundation 
+                             ".tfignore", 
+                             
                              # svn
                              "*.mine",
                              "*.theirs", 
@@ -576,16 +579,29 @@ class Application:
                              
                              # Apache
                              "*.htaccess",
-                             
+                             "mod_jk.conf", 
+                             "httpd.conf",
+                             "deny-access.conf", 
+                             "default_mod_jk.conf",
+                             "cgi.conf", 
+                                                          
                              # csslint
                              ".csslintrc",
-                             
                              
                              # Bower 
                              ".bowerrc", 
                              
                              # Checkstyle 
                              "checkstyle.xml", 
+                             
+                             # Eclipse
+                             "oracle.eclipse.tools.webtier.ui.prefs", 
+                             "org.jboss.ide.eclipse.as.core.prefs", 
+                             ".faces-config.xml.jsfdia", 
+                             
+                             # Forge de devpt Safran 
+                             "Checks_Spi4j.xml", 
+                             "PMD_Spi4j.xml", 
                              
                              # StyleCop 
                              "StyleCop.Cache", 
@@ -611,6 +627,13 @@ class Application:
                              
                              # Mocha 
                              "mocha.opts", 
+                             
+                             # GUI prototyping tool  
+                             "*.ep", 
+                             
+                             # Modeling tools 
+                             "*.aird", 
+                             "*.ois", 
                              
                              # HTTP Archive Valider 
                              "har-validator", 
@@ -644,6 +667,9 @@ class Application:
                              ".jscsrc", 
                              ".eslintignore", 
                              ".eslintrc", 
+                             
+                             # Tern : a stand-alone code-analysis engine for JavaScript
+                             ".tern-project", 
                              
                              # uglifyjs
                              "uglifyjs", 
@@ -680,6 +706,9 @@ class Application:
                              # EditorConfig 
                              ".editorconfig", 
                              
+                             # Dreamweaver or Contribute Macromedia Design Note files 
+                             "*.mno", 
+                                                          
                              # Eclipse, do we need to exclude ?
                              "pom.xml", 
                              ".project",
@@ -702,19 +731,38 @@ class Application:
                              "LICENSE.BSD", 
                              "MIT.LICENSE", 
                              "LICENSE.APACHE2", 
+
+                             "UNLICENSE",                
+                             "COPYING", 
+                             "BUGS",
+
                              "AUTHORS",
                              "OWNERS", 
                              "CONTRIBUTORS", 
-                             "UNLICENSE",                
-                             "COPYING", 
+                             "CREDITS", 
+                             "MAINTAINERS", 
+                             "TESTERS",
+                             "Testers", 
+
+                             "VERSION",
+                             "WhatsNew", 
+                             "NEWS", 
                              "CHANGELOG", 
                              "changelog", 
                              "Changelog", 
+                             "NOTICE", 
+                             "USAGE",
+                             "TODO",                              
+                             "IDEAS", 
+                             "Ideas",
+                             "STATUS", 
+                             "Status", 
+                             
                              "PKG-INFO", 
+                             
                              "README", 
                              "README.*", 
-                             "NOTICE", 
-                             "CREDITS", 
+                             "TROUBLESHOOTING",
         
                              # Excel
                              "*.xls",
@@ -769,9 +817,13 @@ class Application:
                              '*.factorypath', 
                              '*.script',
                              
+                             # images
+                             '*.svg', 
+                             
                              # various
                              '*.dtd',
                              '*.tld',
+                             "folder.info", 
                              
                              ]
         
@@ -786,11 +838,16 @@ class Application:
                             ".*org\.eclipse\..*", 
                             # abap program description
                             ".*\\PG_DESCR_.*\.xml",
+                            # abap 
+                            ".*\=CCAU\.abap", 
+                            ".*\=IP\.abap", 
                             # cast extracts; e.g:
                             # S:\Sources\DB\GCP_EEN\EIR01PRW\DT.62.src
                             ".*\\.*\.[0-9]+\.src",
                             # DL.PUBLIC.A1ENB1D1.DB.ATT.COM.src
-                            r".*\.PUBLIC\..*\.src"
+                            r".*\.PUBLIC\..*\.src",
+                            # \CAST_TLG_PB\ap\src\apbill\apbill.pbl_CASTExtractor\d_bl_ur_thresholds_list.srd
+                            r".*\.pbl_CASTExtractor.*"
                             ]
         
         # special case for html5
@@ -1016,6 +1073,7 @@ class Language:
         # @todo : list them all... 
         map = {
                'ActionScript':('com.castsoftware.flex', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.flex/'),
+               'BIRT':('com.castsoftware.uc.birt', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.uc.birt/'),
                'CSS':('com.castsoftware.html5', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.html5/'),
                'EGL':('com.castsoftware.egl', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.egl/'),
                'FORTRAN':('com.castsoftware.fortran', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.fortran/'),

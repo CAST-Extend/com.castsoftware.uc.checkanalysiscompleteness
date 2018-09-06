@@ -177,6 +177,11 @@ languages = \
     "Befunge": {
         "primary_extension": ".befunge"
     },
+    "BIRT": {
+        "type": "programming",
+        "color": "#98BAD6",
+        "primary_extension": ".rptdesign"
+    },        
     "BlitzBasic": {
         "type": "programming",
         "aliases": [
@@ -200,12 +205,6 @@ languages = \
         "type": "programming",
         "color": "#d4bec1",
         "primary_extension": ".boo"
-    },
-    "Brainfuck": {
-        "primary_extension": ".b",
-        "extensions": [
-            ".bf"
-        ]
     },
     "Bro": {
         "type": "programming",
@@ -251,6 +250,7 @@ languages = \
             ".hh",
             ".hpp",
             ".hxx",
+            ".ipp", 
             ".tcc",
             ".tpp"
         ]
@@ -269,6 +269,16 @@ languages = \
         ],
         "primary_extension": ".chs"
     },
+    "Common Gateway Interface files": {
+        "type": "programming",
+        "color": "#98BAD6",
+        "primary_extension": ".cgi"
+    }, 
+    "Configuration files": {
+        "type": "programming",
+        "color": "#98BAD6",
+        "primary_extension": ".conf"
+    },             
     "CLIPS": {
         "type": "programming",
         "lexer": "Text only",
@@ -543,6 +553,15 @@ languages = \
             ".emacs"
         ]
     },
+    "Entity Framework Specification": {
+        "type": "programming",
+        "color": "#c065db",
+        "primary_extension": ".csdl", 
+        "extensions": [
+            ".ssdl",
+            ".msl"
+        ]
+    },    
     "Erlang": {
         "type": "programming",
         "color": "#0faf8d",
@@ -563,29 +582,6 @@ languages = \
         "extensions": [
             ".fsi",
             ".fsx"
-        ]
-    },
-    "FORTRAN": {
-        "type": "programming",
-        "lexer": "Fortran",
-        "color": "#4d41b1",
-        "primary_extension": ".f90",
-        "extensions": [
-            ".F",
-            ".F03",
-            ".F08",
-            ".F77",
-            ".F90",
-            ".F95",
-            ".FOR",
-            ".FPP",
-            ".f",
-            ".f03",
-            ".f08",
-            ".f77",
-            ".f95",
-            ".for",
-            ".fpp"
         ]
     },
     "Factor": {
@@ -622,6 +618,34 @@ languages = \
             ".4th"
         ]
     },
+    "FORTRAN": {
+        "type": "programming",
+        "lexer": "Fortran",
+        "color": "#4d41b1",
+        "primary_extension": ".f90",
+        "extensions": [
+            ".F",
+            ".F03",
+            ".F08",
+            ".F77",
+            ".F90",
+            ".F95",
+            ".FOR",
+            ".FPP",
+            ".f",
+            ".f03",
+            ".f08",
+            ".f77",
+            ".f95",
+            ".for",
+            ".fpp"
+        ]
+    },    
+    "Apache FreeMarker Template": {
+        "type": "programming",
+        "color": "#98BAD6",
+        "primary_extension": ".ftl"
+    },          
     "GAS": {
         "type": "programming",
         "group": "Assembly",
@@ -865,6 +889,11 @@ languages = \
         "type": "markup",
         "primary_extension": ".jade"
     },
+    "JasperReports": {
+        "type": "programming",
+        "color": "#98BAD6",
+        "primary_extension": ".jrxml"
+    },        
     "Java": {
         "type": "programming",
         "ace_mode": "java",
@@ -1043,7 +1072,12 @@ languages = \
         "filenames": [
             "makefile",
             "Makefile",
-            "GNUmakefile"
+            "GNUmakefile", 
+            "build.make", 
+            "flags.make", 
+            "depend.make",
+            "progress.make", 
+            "depend.internal", 
         ]
     },
     "Mako": {
@@ -1558,6 +1592,17 @@ languages = \
         "color": "#dea584",
         "primary_extension": ".rs"
     },
+    
+    "SAP UI Theme Designer": {
+        "ace_mode": "theming",
+        "color": "#1f085e",
+        "primary_extension": ".theming", 
+        "extensions": [
+            ".theming",
+            ".library" 
+        ]
+ 
+    },    
     "SCSS": {
         "type": "markup",
         "group": "CSS",
