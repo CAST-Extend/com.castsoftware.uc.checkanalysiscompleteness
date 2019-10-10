@@ -206,6 +206,11 @@ languages = \
         "color": "#d4bec1",
         "primary_extension": ".boo"
     },
+    "BPEL": {
+        "type": "programming",
+        "color": "#d4bec1",
+        "primary_extension": ".bpel"
+    },
     "Bro": {
         "type": "programming",
         "primary_extension": ".bro"
@@ -1710,6 +1715,12 @@ languages = \
         "color": "#46390b",
         "lexer": "Text only",
         "primary_extension": ".sc"
+    },
+    "Swift": {
+        "type": "programming",
+        "color": "#46390b",
+        "lexer": "Text only",
+        "primary_extension": ".swift"
     },
     "TOML": {
         "type": "data",

@@ -77,7 +77,7 @@ class Application:
         """
         
         # summary
-        percentage = self.summary(workbook)
+        percentage, summary = self.summary(workbook)
         
         # for debug 
         self.list_files(workbook)
@@ -86,12 +86,23 @@ class Application:
         self.list_unanalysed(workbook)
         
         # delta
-        self.list_new_unanalysed(workbook)
+        new_unanalysed_count = self.list_new_unanalysed(workbook)
+        
+        analyzed_count = len(self.analyzed_files)
+        unanalyzed_count = len(self.unanalyzed_files)
+        total = analyzed_count + unanalyzed_count
+        
+        percentage_of_new_unanalysed = new_unanalysed_count / total * 100
+               
+        summary.write(2, 2, 'Percentage of new unanalyzed files')
+        percent_format = workbook.add_format({'num_format': '0.00"%"'}) 
+        summary.write(2, 3, math.ceil(percentage_of_new_unanalysed), percent_format)
+        # end delta
         
         # debug infos
         self.debug(workbook)
         
-        return percentage
+        return percentage, percentage_of_new_unanalysed
     
     def summary(self, workbook):
         
@@ -188,7 +199,7 @@ class Application:
             
         row += 2
             
-        return percentage
+        return percentage, worksheet
     
     def list_files(self, workbook):
         """
@@ -262,6 +273,8 @@ class Application:
         
         row = 1
         width = 30 
+        new_unanalysed_count = 0
+        
         
         for language in files_per_language:
             
@@ -275,12 +288,16 @@ class Application:
                     row += 1
                     
                     width = max(width, len(str(_file.path)))
+                    
+                    new_unanalysed_count += 1
         
         # auto set width of column (max width have been calculated along the way)
         worksheet.set_column(1, 1, width)
         
         # add filters from (0, 0) to (1, row)
         worksheet.autofilter(0, 0, row-1, 2)        
+        
+        return new_unanalysed_count
         
     
     def debug(self, workbook):
@@ -714,6 +731,8 @@ class Application:
                              ".project",
                              ".classpath",
                              
+                             ".vbproj",
+                             
                              # Various
                              "*.log",
                              "*.txt",
@@ -776,6 +795,7 @@ class Application:
                              "*.hcc",
                              "*.h",
                              "*.hxx",
+                             "*.ph", # see https://castsoftware.zendesk.com/agent/tickets/16477
                              
                              # skipped by analyser
                              "package-info.java",
@@ -847,7 +867,9 @@ class Application:
                             # DL.PUBLIC.A1ENB1D1.DB.ATT.COM.src
                             r".*\.PUBLIC\..*\.src",
                             # \CAST_TLG_PB\ap\src\apbill\apbill.pbl_CASTExtractor\d_bl_ur_thresholds_list.srd
-                            r".*\.pbl_CASTExtractor.*"
+                            r".*\.pbl_CASTExtractor.*",
+                            # obvious node modules
+                            r".*\node_modules\.*",
                             ]
         
         # special case for html5
@@ -1087,6 +1109,9 @@ class Language:
                'RPG':('com.castsoftware.rpg', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.rpg/'),
                'Shell':('com.castsoftware.shell', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.shell/'),
                'SQL':('com.castsoftware.sqlanalyzer', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.sqlanalyzer/'),
+               'TypeScript':('com.castsoftware.typescript', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.typescript/'),
+               'Swift':('com.castsoftware.swift', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.swift/'),
+               'BPEL':('com.castsoftware.bpel', 'https://extend.castsoftware.com/V2/packages/com.castsoftware.bpel/'),
                }
 
         try:

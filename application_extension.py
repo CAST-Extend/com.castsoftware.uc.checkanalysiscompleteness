@@ -14,21 +14,26 @@ def main(application, report_path, version=None, previously_unanalysed=set()):
     
     # Generate the Excel report and get the raw percentage
     workbook = xlsxwriter.Workbook(report_path)
-    percentage = unanalysed.generate_report(application, workbook, version, previously_unanalysed)
+    percentage, new_unanalysed_percentage = unanalysed.generate_report(application, workbook, version, previously_unanalysed)
     workbook.close()
 
     try:
         # try Publish the Execution Report in CMS
         report_name='Unanalyzed Code'
-        metric_name = 'Percentage of unanalysed files'
-        metric='%.1f%%' % percentage
+        
+        metric_name = 'NEW unanalysed files percentage'
+        metric='%.1f%%' % new_unanalysed_percentage
+        
+        second_metric_name = 'Unanalysed files percentage'
+        second_metric='%.1f%%' % percentage
+        
         level='OK'
-        if (percentage > 10):
+        if (new_unanalysed_percentage > 10):
             level='Warning'
         
         # this import may fail in versions < 8.3
         from cast.application import publish_report # @UnresolvedImport
-        publish_report(report_name, level, metric_name, metric, detail_report_path=report_path)
+        publish_report(report_name, level, metric_name, metric, second_metric_name, second_metric, detail_report_path=report_path)
     
     except:
         pass # probably not in 8.3
@@ -67,12 +72,13 @@ def main(application, report_path, version=None, previously_unanalysed=set()):
                   <head></head>
                   <body>
                     <p>Percentage of unanalysed files: %s%%<br>
+                    <p>Percentage of new unanalysed files: %s%%<br>
                     See attachement for full details.<br>
                     <a href="https://github.com/CAST-Extend/com.castsoftware.uc.checkanalysiscompleteness/blob/master/readme.md">Usage documentation</a> 
                     </p>
                   </body>
                 </html>
-                """  % percentage
+                """  % (percentage, new_unanalysed_percentage)
                 
                 msg.attach(MIMEText(html, 'html'))
                 
