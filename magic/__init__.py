@@ -2,6 +2,7 @@ import subprocess
 import tempfile
 import os
 import logging
+import traceback
 
 
 def run_magic(files):
@@ -31,38 +32,49 @@ def run_magic(files):
     files_file.close()    
     
     command = '"' + bin_path +'/file.exe" --mime --no-pad -m "' + bin_path + '/magic.bin" -f "' + files_file.name + '"'
-    
-    p = subprocess.Popen(command,universal_newlines=True,stdout=subprocess.PIPE)
-    (out,_) = p.communicate()
-    magics = out.splitlines()
-    
-    os.remove(files_file.name)
-    
+
     result = []
     
-    for line in magics:
+    try:
         
-        elements = line.split('; ')
+        p = subprocess.Popen(command,universal_newlines=True, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr = subprocess.PIPE)
+        (out,_) = p.communicate()
+        magics = out.splitlines()
         
-        # @todo : elements[1].split('/') do not always return a pair...
-        mime = ('unknown', '')
-        try:
-            mime = elements[1].split('/')
-            if len(mime) < 2:
-                mime = (mime[0], '')
-        except:
-            # no mime for some files
-            pass
+        os.remove(files_file.name)
         
-        charset = None
-        try:
-            charset = elements[2].split('=')[1]
-        except:
-            # no charset for some files
-            pass
+        for line in magics:
+            
+            elements = line.split('; ')
+            
+            # @todo : elements[1].split('/') do not always return a pair...
+            mime = ('unknown', '')
+            try:
+                mime = elements[1].split('/')
+                if len(mime) < 2:
+                    mime = (mime[0], '')
+            except:
+                # no mime for some files
+                pass
+            
+            charset = None
+            try:
+                charset = elements[2].split('=')[1]
+            except:
+                # no charset for some files
+                pass
+            
+            result.append((elements[0], mime, charset))
+            
         
-        result.append((elements[0], mime, charset))
-        
+    except:
+
+        # something bad happened 
+        # keep all 
+        logging.info('an issue occurred during magic, skipping filtering.\n' + traceback.format_exc())
+        for f in files:
+            
+            result.append((str(f), ['text'], 'utf-8'))
     
     return result
 
